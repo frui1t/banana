@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"banana/conf"
+	"fmt"
+)
 
 func main() {
 	fmt.Println("test")
+	conf.Init()
 }
