@@ -53,4 +53,6 @@ func Database(dsn string, maxId, maxOpen int) {
 
 	DB = db
 
+	migration()
+
 }
