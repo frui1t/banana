@@ -23,3 +23,16 @@ func (u *User) SetPassword(password string) error {
 	u.Password = newPassword
 	return nil
 }
+
+func (u *User) CheckPassword(password string) bool {
+	checkPassword, err := util.EncodeMD5(password)
+	if err != nil {
+		logrus.Error(err)
+		return false
+	}
+	if checkPassword != u.Password {
+		return false
+	}
+	return true
+
+}

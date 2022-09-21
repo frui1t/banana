@@ -16,6 +16,7 @@ func NewRouter() *gin.Engine {
 		})
 		//用户注册接口
 		v1.POST("/register", api.UserRegister)
+		v1.POST("/login", api.UserLogin)
 	}
 
 	return r
