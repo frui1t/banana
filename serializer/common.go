@@ -6,3 +6,6 @@ type Response struct {
 	Msg   string      `json:"msg"`
 	Error string      `json:"error"`
 }
+
+type TokenResponse struct {
+}
