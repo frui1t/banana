@@ -8,4 +8,5 @@ type Response struct {
 }
 
 type TokenResponse struct {
+	token string
 }
