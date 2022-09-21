@@ -7,10 +7,10 @@ import (
 
 // 用户注册服务
 type UserRegisterService struct {
-	Nickname        string `json:"nickname" from:"nickname" bind:"required"`
-	Username        string `json:"username" from:"username" bind:"required"`
-	Password        string `json:"password" from:"password" bind:"required"`
-	PasswordConfirm string `json:"password_confirm" from:"password_confirm" bind:"required"`
+	Nickname        string `json:"nickname" from:"nickname" binding:"required"`
+	Username        string `json:"username" from:"username" binding:"required"`
+	Password        string `json:"password" from:"password" binding:"required"`
+	PasswordConfirm string `json:"password_confirm" from:"password_confirm" binding:"required"`
 }
 
 func (u *UserRegisterService) valid() *serializer.Response {
@@ -45,11 +45,13 @@ func (u *UserRegisterService) Register() *serializer.Response {
 		Username: u.Username,
 		Avatar:   "000",
 	}
-	u.valid()
+	if err := u.valid(); err != nil {
+		return err
+	}
 
 	user.SetPassword(u.Password)
 
-	if err := model.DB.Create(&model.User{}).Error; err != nil {
+	if err := model.DB.Model(&model.User{}).Create(&user).Error; err != nil {
 		return &serializer.Response{
 			Code: 40000,
 			Msg:  "注册失败",
