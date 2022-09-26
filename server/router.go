@@ -24,6 +24,7 @@ func NewRouter() *gin.Engine {
 		authed.Use(middleware.JWT())
 		{
 			authed.POST("/user", api.UserPost)
+			authed.POST("/user/content", api.PostContent)
 		}
 	}
 
