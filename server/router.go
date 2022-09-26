@@ -2,6 +2,7 @@ package server
 
 import (
 	api "banana/api/v1"
+	"banana/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,6 +18,13 @@ func NewRouter() *gin.Engine {
 		//用户注册接口
 		v1.POST("/register", api.UserRegister)
 		v1.POST("/login", api.UserLogin)
+		//v1.POST("/user", api.UserPost)
+
+		authed := v1.Group("/")
+		authed.Use(middleware.JWT())
+		{
+			authed.POST("/user", api.UserPost)
+		}
 	}
 
 	return r

@@ -13,6 +13,7 @@ import (
 type Config struct {
 	ServiceConf `ini:"kafka"`
 	MysqlConf   `ini:"mysql"`
+	Jwt         `ini:"jwt"`
 }
 
 type ServiceConf struct {
@@ -32,7 +33,12 @@ type MysqlConf struct {
 	MaxOpenConns int    `ini:"MaxOpenConns"`
 }
 
+type Jwt struct {
+	JwtSecret string `ini:"JwtSecret"`
+}
+
 func Init() {
+
 	var cfg = new(Config)
 	err := ini.MapTo(cfg, "./conf/config.ini")
 	if err != nil {
@@ -43,7 +49,7 @@ func Init() {
 	model.Database(dsn, cfg.MysqlConf.MaxIdleConns, cfg.MaxOpenConns)
 
 	r := server.NewRouter()
-
+	//fmt.Println(cfg.Jwt.JwtSecret)
 	r.Run(":8000")
 
 	/*

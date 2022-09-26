@@ -7,6 +7,8 @@ type Response struct {
 	Error string      `json:"error"`
 }
 
-type TokenResponse struct {
-	token string
+type TokenData struct {
+	User          interface{} `json:"user"`
+	Access_token  string      `json:"access_token"`
+	Refresh_token string      `json:"refresh_token"`
 }
