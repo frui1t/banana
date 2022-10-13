@@ -18,12 +18,12 @@ func NewRouter() *gin.Engine {
 		//用户注册接口
 		v1.POST("/register", api.UserRegister)
 		v1.POST("/login", api.UserLogin)
-		//v1.POST("/user", api.UserPost)
+		v1.POST("/user", api.UserPost)
 
 		authed := v1.Group("/")
 		authed.Use(middleware.JWT())
 		{
-			authed.POST("/user", api.UserPost)
+			//authed.POST("/user", api.UserPost)
 			authed.POST("/user/content", api.PostContent)
 		}
 	}

@@ -15,7 +15,7 @@ var user model.User
 
 func (u *UserLoginService) valid() *serializer.Response {
 
-	if err := model.DB.Model(&model.User{}).Where("username = ?", u.Username).Find(&user).Error; err != nil {
+	if err := model.DB.Model(&model.User{}).Where("username = ?", u.Username).First(&user).Error; err != nil {
 		return &serializer.Response{
 			Code:  40000,
 			Data:  "账号或者密码错误",
