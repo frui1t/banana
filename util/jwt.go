@@ -33,12 +33,10 @@ func GenerateAccessToken(id uint, userName string, authority int) (string, error
 
 }
 
-func GenerateRefreshToken(id uint, userName string, authority int) (string, error) {
+func GenerateRefreshToken(authority int) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(24 * time.Hour)
 	claims := Claims{
-		ID:        id,
-		UserName:  userName,
 		Authority: authority,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),

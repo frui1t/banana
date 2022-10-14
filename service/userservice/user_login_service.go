@@ -4,6 +4,11 @@ import (
 	"banana/model"
 	"banana/serializer"
 	"banana/util"
+	"context"
+	"strconv"
+	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 type UserLoginService struct {
@@ -48,8 +53,7 @@ func (u *UserLoginService) Login() *serializer.Response {
 			Msg:  "accesstoken 签发失败",
 		}
 	}
-
-	refreshtoken, err := util.GenerateRefreshToken(uint(user.ID), u.Username, 0)
+	refreshtoken, err := util.GenerateRefreshToken(0)
 	if err != nil {
 		return &serializer.Response{
 			Code: 200,
@@ -57,9 +61,21 @@ func (u *UserLoginService) Login() *serializer.Response {
 			Msg:  "refreshtoken 签发失败",
 		}
 	}
+	logrus.Warnln(refreshtoken)
+	
+
+	err = model.RDB.Set(context.Background(), strconv.FormatInt(user.ID, 10), refreshtoken, time.Hour*24).Err()
+	if err != nil {
+		return &serializer.Response{
+			Code: 200,
+			Data: "",
+			Msg:  "refreshtoken redis 签发失败",
+		}
+	}
+
 	return &serializer.Response{
 		Code: 200,
-		Data: serializer.TokenData{User: serializer.BuildUser(&user), Access_token: accesstoken, Refresh_token: refreshtoken},
+		Data: serializer.TokenData{User: serializer.BuildUser(&user), Access_token: accesstoken},
 		Msg:  "login success",
 	}
 }

@@ -5,7 +5,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/go-redis/redis/v9"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -13,8 +15,9 @@ import (
 )
 
 var DB *gorm.DB
+var RDB *redis.Client
 
-func Database(dsn string, maxId, maxOpen int) {
+func MysqlDatabase(dsn string, maxId, maxOpen int) {
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
@@ -55,4 +58,15 @@ func Database(dsn string, maxId, maxOpen int) {
 
 	//migration()
 
+}
+
+func RedisDatabase() {
+	//ctx := context.Background()
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     viper.GetString("redis.Addr"),
+		Password: viper.GetString("redis.Password"),
+		DB:       viper.GetInt("redis.DB"),
+	})
+
+	RDB = rdb
 }

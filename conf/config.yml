@@ -1,0 +1,23 @@
+service:
+  AppMode : debug
+  HttpPort : :8000
+  ReadTimeout : 60
+  WriteTimeout : 60
+
+mysql:
+  DB : mysql
+  DbHost : 127.0.0.1
+  DbPort : 3306
+  DbUser : root
+  DbPassword : 123test
+  DbName : web_banana
+  MaxIdleConns : 10
+  MaxOpenConns : 30
+
+redis:
+  Addr : 127.0.0.1:6379
+  Password : 123test
+  DB : 0
+
+jwt:
+  JwtSecret = JwtSecret
