@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"banana/service"
+	"banana/service/userservice"
 	"banana/util"
 	"net/http"
 
@@ -9,7 +9,7 @@ import (
 )
 
 func PostContent(ctx *gin.Context) {
-	var service service.ContentPostService
+	var service userservice.ContentPostService
 	recclaims, _ := util.ParseToken(ctx.GetHeader("refresh_token"))
 	if err := ctx.ShouldBind(&service); err == nil {
 		res := service.ContentPost(ctx.Request.Context(), recclaims.ID)

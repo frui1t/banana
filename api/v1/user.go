@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"banana/service"
+	"banana/service/userservice"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,7 +9,7 @@ import (
 
 // 用户注册接口
 func UserRegister(ctx *gin.Context) {
-	var service service.UserRegisterService
+	var service userservice.UserRegisterService
 	if err := ctx.ShouldBind(&service); err == nil {
 		res := service.Register()
 		ctx.JSON(http.StatusOK, res)
@@ -18,8 +18,9 @@ func UserRegister(ctx *gin.Context) {
 	}
 }
 
+// 用户登录接口
 func UserLogin(ctx *gin.Context) {
-	var service service.UserLoginService
+	var service userservice.UserLoginService
 	if err := ctx.ShouldBind(&service); err == nil {
 		res := service.Login()
 		ctx.JSON(http.StatusOK, res)
@@ -30,7 +31,7 @@ func UserLogin(ctx *gin.Context) {
 
 func UserPost(ctx *gin.Context) {
 
-	var userUpdate service.UserPostService
+	var userUpdate userservice.UserPostService
 	/*
 		accclaims, _ := util.ParseToken(ctx.GetHeader("access_token"))
 		recclaims, _ := util.ParseToken(ctx.GetHeader("refresh_token"))
