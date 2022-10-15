@@ -23,8 +23,16 @@ func JWT() gin.HandlerFunc {
 		if err != nil {
 			code = 404
 		}
-		id := acc.ID
-		_, err = model.RDB.Get(context.Background(), strconv.FormatInt(int64(id), 10)).Result()
+		if code != 200 {
+			ctx.JSON(200, gin.H{
+				"status": code,
+				"msg":    "mid err",
+			})
+			ctx.Abort()
+			return
+		}
+		//id := acc.ID
+		_, err = model.RDB.Get(context.Background(), strconv.FormatInt(int64(acc.ID), 10)).Result()
 		if err != nil {
 			code = 303
 		}

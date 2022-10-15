@@ -10,7 +10,7 @@ import (
 
 func PostContent(ctx *gin.Context) {
 	var service userservice.ContentPostService
-	recclaims, _ := util.ParseToken(ctx.GetHeader("Access_token"))
+	recclaims, _ := util.ParseToken(ctx.GetHeader("access_token"))
 	if err := ctx.ShouldBind(&service); err == nil {
 		res := service.ContentPost(ctx.Request.Context(), recclaims.ID)
 		ctx.JSON(http.StatusOK, res)
