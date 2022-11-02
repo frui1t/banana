@@ -65,3 +65,7 @@ func UserPost(ctx *gin.Context) {
 	*/
 
 }
+
+func UserUpdate(ctx *gin.Context) {
+	
+}

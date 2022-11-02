@@ -9,6 +9,7 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.Default()
+	r.Use(gin.Recovery(), gin.Logger())
 
 	v1 := r.Group("/api/v1")
 	{
@@ -18,14 +19,13 @@ func NewRouter() *gin.Engine {
 		//用户注册接口
 		v1.POST("/register", api.UserRegister)
 		v1.POST("/login", api.UserLogin)
-		v1.POST("/logout", api.UserLogout)
-
-		//v1.POST("/user", api.UserPost)
 
 		authed := v1.Group("/")
 		authed.Use(middleware.JWT())
 		{
+			authed.POST("/logout", api.UserLogout)
 			authed.POST("/user", api.UserPost)
+			authed.POST("/user/update", api.UserUpdate)
 			authed.POST("/user/content", api.PostContent)
 		}
 	}

@@ -19,5 +19,10 @@ redis:
   Password : 123test
   DB : 0
 
+minio:
+  Addr : 
+
 jwt:
   JwtSecret = JwtSecret
+
+
