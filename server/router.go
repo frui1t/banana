@@ -3,6 +3,7 @@ package server
 import (
 	api "banana/api/v1"
 	"banana/middleware"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,6 +30,18 @@ func NewRouter() *gin.Engine {
 			authed.POST("/user/content", api.PostContent)
 		}
 	}
+	r.NoRoute(func(ctx *gin.Context) {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"Code": "404",
+			"Msg":  "Not Found",
+		})
+	})
+	r.NoMethod(func(ctx *gin.Context) {
+		ctx.JSON(http.StatusMethodNotAllowed, gin.H{
+			"Code": "405",
+			"Msg":  "Method Not Allowed",
+		})
+	})
 
 	return r
 }

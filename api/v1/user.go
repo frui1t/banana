@@ -67,5 +67,12 @@ func UserPost(ctx *gin.Context) {
 }
 
 func UserUpdate(ctx *gin.Context) {
-	
+
+	var service userservice.UserUpdateService
+	if err := ctx.ShouldBind(&service); err != nil {
+		res := service.Update()
+		ctx.JSON(http.StatusOK, res)
+	} else {
+		ctx.JSON(http.StatusBadRequest, "err")
+	}
 }
