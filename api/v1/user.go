@@ -45,34 +45,21 @@ func UserLogout(ctx *gin.Context) {
 func UserPost(ctx *gin.Context) {
 
 	var userUpdate userservice.UserPostService
-	/*
-		accclaims, _ := util.ParseToken(ctx.GetHeader("access_token"))
-		recclaims, _ := util.ParseToken(ctx.GetHeader("refresh_token"))
-	*/
 	if err := ctx.ShouldBind(&userUpdate); err == nil {
 		res := userUpdate.UserPost()
 		ctx.JSON(http.StatusOK, res)
 	} else {
 		ctx.JSON(http.StatusBadRequest, err)
 	}
-	/*
-		if err := ctx.ShouldBind(&userUpdate); err == nil {
-			res := userUpdate.UserPost(ctx.Request.Context(), accclaims.ID, recclaims.ID)
-			ctx.JSON(http.StatusOK, res)
-		} else {
-			ctx.JSON(http.StatusBadRequest, err)
-		}
-	*/
-
 }
 
 func UserUpdate(ctx *gin.Context) {
-
-	var service userservice.UserUpdateService
-	if err := ctx.ShouldBind(&service); err != nil {
-		res := service.Update()
+	var server userservice.UserUpdateService
+	recclaims, _ := util.ParseToken(ctx.GetHeader("access_token"))
+	if err := ctx.ShouldBind(&server); err == nil {
+		res := server.Update(recclaims.ID)
 		ctx.JSON(http.StatusOK, res)
 	} else {
-		ctx.JSON(http.StatusBadRequest, "err")
+		ctx.JSON(http.StatusBadRequest, "UserUpdateerr")
 	}
 }

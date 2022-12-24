@@ -7,7 +7,7 @@ import (
 
 // 用户注册服务
 type UserRegisterService struct {
-	Nickname        string `json:"nickname" from:"nickname" binding:"required"`
+	Nickname        string `json:"nickname" from:"nickname" c`
 	Username        string `json:"username" from:"username" binding:"required"`
 	Password        string `json:"password" from:"password" binding:"required"`
 	PasswordConfirm string `json:"password_confirm" from:"password_confirm" binding:"required"`

@@ -20,7 +20,9 @@ redis:
   DB : 0
 
 minio:
-  Addr : 
+  Addr : 127.0.0.1:9000
+  Usr : adminn
+  Pas : passwordd
 
 jwt:
   JwtSecret = JwtSecret
