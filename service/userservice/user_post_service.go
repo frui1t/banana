@@ -30,6 +30,7 @@ func (u *UserPostService) UserPost(ctx context.Context, uid uint, id uint) *seri
 */
 
 func (u *UserPostService) UserPost() *serializer.Response {
+	var user model.User
 	err := model.DB.Model(&model.User{}).Where("username = ?", u.Username).First(&user).Error
 	if err != nil {
 		return &serializer.Response{
