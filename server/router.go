@@ -5,18 +5,26 @@ import (
 	"banana/middleware"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() *gin.Engine {
 	r := gin.Default()
-	r.Use(gin.Recovery(), gin.Logger())
+	r.Use(gin.Recovery(), middleware.LoggerToFile())
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	r.Use(cors.New(corsConfig))
+
 	r.Static("/images", "./images")
 
 	v1 := r.Group("/api/v1")
 	{
 		v1.GET("/ping", func(ctx *gin.Context) {
-			ctx.JSON(200, "sucess")
+			ctx.JSON(http.StatusOK, gin.H{
+				"status": "200",
+				"msg":    "成功",
+			})
 		})
 		v1.POST("/file", func(ctx *gin.Context) {
 			file, _ := ctx.FormFile("file")
@@ -28,6 +36,7 @@ func NewRouter() *gin.Engine {
 		//用户注册接口
 		v1.POST("/register", api.UserRegister)
 		v1.POST("/login", api.UserLogin)
+		v1.POST("/content", api.GetContent)
 
 		authed := v1.Group("/")
 		authed.Use(middleware.JWT())
@@ -48,14 +57,14 @@ func NewRouter() *gin.Engine {
 	}
 	r.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"Code": "404",
-			"Msg":  "Not Found",
+			"status": "404",
+			"msg":    "Not Found",
 		})
 	})
 	r.NoMethod(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusMethodNotAllowed, gin.H{
-			"Code": "405",
-			"Msg":  "Method Not Allowed",
+			"status": "405",
+			"msg":    "Method Not Allowed",
 		})
 	})
 

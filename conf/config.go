@@ -35,7 +35,7 @@ func Init() {
 
 	r := server.NewRouter()
 	//fmt.Println(cfg.Jwt.JwtSecret)
-	r.Run(":8000")
+	r.Run(":9999")
 
 	/*
 		s := &http.Server{

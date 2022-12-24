@@ -28,3 +28,6 @@ jwt:
   JwtSecret = JwtSecret
 
 
+log:
+  LogPath : /home/code/src/log
+  LogName : bananaLog.log

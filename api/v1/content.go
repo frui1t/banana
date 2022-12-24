@@ -8,6 +8,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func GetContent(ctx *gin.Context) {
+	var service userservice.ContentGetService
+	res := service.ContentGet()
+	ctx.JSON(http.StatusOK, res)
+}
 func PostContentCreate(ctx *gin.Context) {
 	var service userservice.ContentPostService
 	recclaims, _ := util.ParseToken(ctx.GetHeader("access_token"))

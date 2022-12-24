@@ -23,7 +23,7 @@ func (u *UserLoginService) valid() *serializer.Response {
 	if err := model.DB.Model(&model.User{}).Where("username = ?", u.Username).First(&user).Error; err != nil {
 		return &serializer.Response{
 			Code:  40000,
-			Data:  "账号或者密码错误",
+			Data:  "账号错误",
 			Msg:   "login err",
 			Error: "err",
 		}
@@ -31,7 +31,7 @@ func (u *UserLoginService) valid() *serializer.Response {
 	if !user.CheckPassword(u.Password) {
 		return &serializer.Response{
 			Code:  40000,
-			Data:  "账号或者密码错误",
+			Data:  "密码错误",
 			Msg:   "login err",
 			Error: "err",
 		}
@@ -62,14 +62,13 @@ func (u *UserLoginService) Login() *serializer.Response {
 		}
 	}
 	logrus.Warnln(refreshtoken)
-	
 
 	err = model.RDB.Set(context.Background(), strconv.FormatInt(user.ID, 10), refreshtoken, time.Hour*24).Err()
 	if err != nil {
 		return &serializer.Response{
 			Code: 200,
-			Data: "",
-			Msg:  "refreshtoken redis 签发失败",
+			Data: err,
+			Msg:  "refreshtoken re dis 签发失败",
 		}
 	}
 
